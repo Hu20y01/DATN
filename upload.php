@@ -14,8 +14,8 @@
     }else{
         $name = ++$result[0]["id"];
     }
-    $name = .$name. ".jpg"
-    $target_file_name = $target_dir .$name. ;
+    $name = $name . ".jpg";
+    $target_file_name = $target_dir .$name ;
 
 if (isset($_FILES["file"]))
    {  
@@ -30,16 +30,16 @@ if (isset($_FILES["file"]))
    else  
       {  
         $arr=[
-         'success' = false,
-         'message' = "Khong Thanh Cong"
+         'success' => false,
+         'message' => "Khong Thanh Cong"
         ];
       }  
    }  
 else  
    {  
     $arr=[
-      'success' = false,
-      'message' = "Loi"
+      'success' => false,
+      'message' => "Loi"
     ];
    }   
    echo json_encode($arr);  
