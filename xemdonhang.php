@@ -7,7 +7,8 @@ $query = 'SELECT * FROM donhang WHERE iduser = '.$iduser.'';
 $data = mysqli_query($conn, $query);
 $result = array();
 while($row = mysqli_fetch_assoc($data)){
-    $truyvan = 'SELECT * FROM chitietdonhang INNER JOIN sanphammoi ON chitietdonhang.idsp=sanphammoi.iddonhang = '.$row['id'];
+    $truyvan = 'SELECT * FROM chitietdonhang INNER JOIN sanphammoi ON chitietdonhang.idsp=sanphammoi.id 
+            WHERE chitietdonhang.iddonhang = '.$row['id'];
     $data1 =mysqli_query($conn,$truyvan);
     $item = array();
     while($row1 = mysqli_fetch_assoc($data1)){
