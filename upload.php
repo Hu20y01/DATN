@@ -23,7 +23,7 @@ if (isset($_FILES["file"]))
       {  
         $arr=[
          'success' => true,
-         'message' => "Thanh Cong",
+         'message' => "Thành công",
          'name' => $name
         ];
       }  
@@ -31,7 +31,7 @@ if (isset($_FILES["file"]))
       {  
         $arr=[
          'success' => false,
-         'message' => "Khong Thanh Cong"
+         'message' => "Không thành công"
         ];
       }  
    }  
@@ -39,7 +39,7 @@ else
    {  
     $arr=[
       'success' => false,
-      'message' => "Loi"
+      'message' => "Lỗi khi tải ảnh lên server"
     ];
    }   
    echo json_encode($arr);  

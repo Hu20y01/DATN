@@ -17,24 +17,24 @@ $chitiet = $_POST['chitiet'];
         while($row = mysqli_fetch_assoc($data)){
         $iddonhang = ($row);
             }
-            print_r($iddonhang);
+        
         if(!empty($iddonhang)){
             $chitiet = json_decode($chitiet,true);
             foreach($chitiet as $key => $value){
                 $truyvan = 'INSERT INTO chitietdonhang(iddonhang,idsp,soluong,gia) VALUES ('.$iddonhang["iddonghang"].',
                 '.$value["idsp"].','.$value["soluong"].',"'.$value["giasp"].'")';  
-                echo $truyvan;
+             
                 $data = mysqli_query($conn,$truyvan);
             }
                 if($data ==true){
                     $arr = [
                         'success' => true,
-                        'message' => "thanhh cong"
+                        'message' => "Thành công"
                     ];
                 }else{
                     $arr = [
                         'success' => false,
-                        'message' => "khong thanhh cong"
+                        'message' => "Không thành công"
                     ];
                 }
                 print_r(json_encode($arr));
@@ -42,7 +42,7 @@ $chitiet = $_POST['chitiet'];
         }else{
             $arr = [
                 'success' => false,
-                'message' => " khong thanh cong"
+                'message' => " không thành công !"
             ];
             print_r(json_encode($arr));
     }

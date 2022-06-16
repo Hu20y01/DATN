@@ -7,12 +7,12 @@ include "connect.php";
         if($data == true){
             $arr = [
                 'success' => true,
-                'message' => "Thanh Cong"
+                'message' => "Xóa Thành Công"
             ];
         }else{
             $arr = [
                 'success' => false,
-                'message' => "Xoa Khong Thanh Cong"
+                'message' => "Xóa Không Thành Công"
             ];
         }
 

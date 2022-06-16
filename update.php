@@ -13,12 +13,12 @@ include "connect.php";
         if($data == true){
             $arr = [
                 'success' => true,
-                'message' => "Thanh Cong"
+                'message' => "Thành Công"
             ];
         }else{
             $arr = [
                 'success' => false,
-                'message' => "Khong Thanh Cong"
+                'message' => "Không Thành Công"
             ];
         }
 
