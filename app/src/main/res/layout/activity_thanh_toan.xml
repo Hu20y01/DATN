@@ -28,68 +28,24 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:src="@drawable/ic_baseline_attach_money_24"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/txttongtien"
-                android:text="25.000"
-                android:textStyle="bold"
-                android:textSize="15sp"
-                android:layout_gravity="center"
-                android:textColor="@android:color/holo_red_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <View
-            android:background="@android:color/darker_gray"
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:src="@drawable/ic_baseline_local_phone_24"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/txtsodienthoai"
-                android:text="0123456789"
-                android:textStyle="bold"
-                android:textSize="15sp"
-                android:layout_gravity="center"
-                android:textColor="@android:color/holo_red_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <View
-            android:background="@android:color/darker_gray"
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+        <TextView
+            style="@style/headerTextPrimary"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:text="Thông tin thanh toán" />
 
+        <TextView
+            style="@style/parent"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="Email"
+            android:layout_marginTop="5dp"/>
         <LinearLayout
             android:orientation="horizontal"
             android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
-                android:src="@drawable/ic_email"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_height="wrap_content"/>
+
             <TextView
                 android:id="@+id/txtemail"
                 android:text="@string/example_gmail_com"
@@ -98,10 +54,63 @@
                 android:layout_gravity="center"
                 android:textColor="@android:color/holo_red_light"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"/>
         </LinearLayout>
 
+        <TextView
+            style="@style/parent"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:text="Số điện thoại"
+            android:layout_marginTop="5dp"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/txtsodienthoai"
+                android:text="0123456789"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_gravity="center"
+                android:textColor="@android:color/holo_red_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
 
+        <View
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Tổng giá trị đơn hàng: "
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/txttongtien"
+                android:text="25.000"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:textColor="@android:color/holo_red_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -129,15 +138,25 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+<!--    <androidx.appcompat.widget.AppCompatButton-->
+<!--        android:id="@+id/btndathang"-->
+<!--        android:text="Đặt hàng"-->
+<!--        android:layout_marginTop="25dp"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/inputlayout"-->
+<!--        android:background="@drawable/background_button"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"/>-->
+
+    <Button
         android:id="@+id/btndathang"
-        android:text="Đặt hàng"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         app:layout_constraintTop_toBottomOf="@id/inputlayout"
-        android:background="@drawable/background_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        style="@style/loginButton"
+        android:text="Đặt hàng"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/loginViewsMargin"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

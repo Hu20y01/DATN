@@ -125,7 +125,7 @@ public class MacBookActivity extends AppCompatActivity {
                                 }
                                 
                             }else{
-                                Toast.makeText(getApplicationContext(),"",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"Loading...",Toast.LENGTH_LONG).show();
                                 isLoading = true;
                             }
                         },

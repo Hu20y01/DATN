@@ -42,14 +42,20 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="6"
                     android:textColor="@android:color/holo_red_light"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
                 <ImageView
                     android:src="@drawable/ic_remove_24"
                     android:id="@+id/item_giohang_tru"
                     android:layout_weight="2"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"/>
                 <TextView
                     android:id="@+id/item_giohang_soluong"
                     android:textSize="15sp"
@@ -58,18 +64,21 @@
                     android:layout_weight="1.5"
                     android:textStyle="bold"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"/>
                 <ImageView
                     android:src="@drawable/ic_add_24"
                     android:id="@+id/item_giohang_cong"
                     android:layout_weight="2"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"/>
                 <ImageView
                     android:src="@drawable/ic_drag_handle_24"
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/item_giohang_giasp2"
                     android:text="25000 đ"
@@ -78,7 +87,8 @@
                     android:textStyle="bold"
                     android:textColor="@android:color/holo_red_light"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
             </LinearLayout>
 
         </LinearLayout>

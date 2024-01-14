@@ -87,6 +87,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                                      Toast.makeText(getApplicationContext(),"thanh cong",Toast.LENGTH_SHORT).show();
                                      Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                      startActivity(intent);
+                                     Utils.manggiohang.clear();
                                      finish();
                                  },
                                 throwable -> {

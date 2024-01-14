@@ -56,6 +56,7 @@ public class LoaiSpAdapter extends BaseAdapter {
             viewHolder.texsanpham = view.findViewById(R.id.item_tensp); //gán id
             viewHolder.imghinhanh = view.findViewById(R.id.item_image); //gán id
             view.setTag(viewHolder);
+            view.setPadding(0, 10, 0, 10);
             Glide.with(context).load(array.get(i).getHinhanh()).into(viewHolder.imghinhanh); //gán vào viewHolder
         }
         else {

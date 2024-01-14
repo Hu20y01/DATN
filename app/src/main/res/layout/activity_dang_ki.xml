@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/loginCard"
     android:id="@+id/layoutdangky"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activity.DangKiActivity">
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
     <LinearLayout
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        style="@style/linearParent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin">
+
         <TextView
-            android:padding="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ĐĂNG KÝ"
-            android:textStyle="bold"
-            android:textSize="30dp"/>
+            style="@style/headerTextPrimary"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:text="Đăng ký tài khoản" />
+
         <EditText
             android:layout_marginTop="60dp"
             android:padding="10dp"
             android:id="@+id/email"
             android:inputType="textEmailAddress"
             android:drawableLeft="@drawable/ic_email"
+            android:drawablePadding="10dp"
             android:hint="Email"
+            style="@style/modifiedEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </EditText>
@@ -35,7 +39,9 @@
             android:id="@+id/name"
             android:drawableLeft="@drawable/ic_baseline_abc_24"
             android:hint="Họ Tên"
+            style="@style/modifiedEditText"
             android:layout_width="match_parent"
+            android:drawablePadding="10dp"
             android:layout_height="wrap_content">
         </EditText>
         <EditText
@@ -43,9 +49,11 @@
             android:padding="10dp"
             android:id="@+id/phone"
             android:inputType="number"
+            style="@style/modifiedEditText"
             android:drawableLeft="@drawable/ic_baseline_local_phone_24"
             android:hint="Nhập SĐT"
             android:layout_width="match_parent"
+            android:drawablePadding="10dp"
             android:layout_height="wrap_content">
         </EditText>
         <EditText
@@ -53,9 +61,11 @@
             android:padding="10dp"
             android:id="@+id/pass"
             android:inputType="textPassword"
+            style="@style/modifiedEditText"
             android:drawableLeft="@drawable/ic_baseline_vpn_key_24"
             android:hint="Mật khẩu"
             android:layout_width="match_parent"
+            android:drawablePadding="10dp"
             android:layout_height="wrap_content">
         </EditText>
         <EditText
@@ -66,6 +76,8 @@
             android:drawableLeft="@drawable/ic_baseline_vpn_key_24"
             android:hint="Nhập Lại Mật khẩu"
             android:layout_width="match_parent"
+            android:drawablePadding="10dp"
+            style="@style/modifiedEditText"
             android:layout_height="wrap_content">
         </EditText>
 
@@ -80,4 +92,4 @@
             android:text="Đăng Ký"></Button>
     </LinearLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

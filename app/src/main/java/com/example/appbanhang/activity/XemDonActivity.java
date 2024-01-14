@@ -38,17 +38,18 @@ public class XemDonActivity extends AppCompatActivity {
 
     private void getOrder() {
         compositeDisposable.add(apiBanHang.xemDOnHang(Utils.user_current.getId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        donHangModel -> {
-                            DonHangAdapter adapter = new DonHangAdapter(getApplicationContext(),donHangModel.getResult());
-                            recyclerView.setAdapter(adapter);
-                        },
-                        throwable -> {
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                donHangModel -> {
+                    System.out.println(donHangModel.getResult());
+                    DonHangAdapter adapter = new DonHangAdapter(getApplicationContext(),donHangModel.getResult());
+                    recyclerView.setAdapter(adapter);
+                },
+                throwable -> {
 
-                        }
-                ));
+                }
+            ));
     }
 
     private void initToolbar() {

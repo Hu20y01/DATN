@@ -23,7 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appbanhang.R;
+import com.example.appbanhang.adapter.CustomSpinnerAdapter;
+import com.example.appbanhang.adapter.DanhMucAdapter;
 import com.example.appbanhang.databinding.ActivityThemspBinding;
+import com.example.appbanhang.model.LoaiSp;
 import com.example.appbanhang.model.MessageModel;
 import com.example.appbanhang.model.SanPhamMoi;
 import com.example.appbanhang.retrofit.ApiBanHang;
@@ -57,6 +60,8 @@ public class ThemSPActivity extends AppCompatActivity {
     String mediaPath;
     SanPhamMoi sanPhamSua;
     boolean flag = false;
+    List<LoaiSp> listDm;
+    DanhMucAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,30 +87,64 @@ public class ThemSPActivity extends AppCompatActivity {
             binding.giasp.setText(sanPhamSua.getGiasp());
             binding.hinhanh.setText(sanPhamSua.getHinhanh());
             binding.tensp.setText(sanPhamSua.getTensp());
-            binding.spinnerLoai.setSelection(sanPhamSua.getLoai());
-
         }
 
     }
 
     private void initData() {
-        List<String> stringList = new ArrayList<>();
-        stringList.add("Vui lòng chọn loại");
-        stringList.add("Loại 1");
-        stringList.add("Loại 2");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,stringList);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                loai = i;
-            }
+        compositeDisposable.add(apiBanHang.getDanhMuc()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                loaiSpModel -> {
+                    listDm = loaiSpModel.getResult();
+                    adapter = new DanhMucAdapter(getApplicationContext(), listDm);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+                    CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, listDm);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-            }
-        });
+                    spinner.setAdapter(adapter);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            LoaiSp selectedItem = (LoaiSp) adapterView.getItemAtPosition(i);
+                            loai = selectedItem.getId();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                        }
+                    });
+
+                    if (sanPhamSua != null) {
+                        String desiredId = sanPhamSua.getLoai() + "";
+                        int selectionPosition = getPositionForId(listDm, desiredId);
+                        spinner.setSelection(selectionPosition);
+                    }
+                },
+                throwable -> {
+                    Toast.makeText(getApplicationContext(),"Không kết nối được với server"+throwable.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            ));
+
+//        List<String> stringList = new ArrayList<>();
+//        stringList.add("Vui lòng chọn loại");
+//        stringList.add("Loại 1");
+//        stringList.add("Loại 2");
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,stringList);
+//        spinner.setAdapter(adapter);
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                loai = i;
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
         binding.btnthem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +171,15 @@ public class ThemSPActivity extends AppCompatActivity {
         });
     }
 
+    private int getPositionForId(List<LoaiSp> list, String desiredId) {
+        for (int i = 0; i < list.size(); i++) {
+            if ((list.get(i).getId() + "").equals(desiredId)) {
+                return i;
+            }
+        }
+        return 0; // Default to the first item if not found
+    }
+
     private void suaSanPham() {
         String str_ten = binding.tensp.getText().toString().trim();
         String str_gia = binding.giasp.getText().toString().trim();
@@ -147,6 +195,8 @@ public class ThemSPActivity extends AppCompatActivity {
                             messageModel -> {
                                 if(messageModel.isSuccess()){
                                     Toast.makeText(getApplicationContext(),messageModel.getMessage(),Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(getApplicationContext(), QuanLyActivity.class);
+                                    startActivity(intent);
                                 }else{
                                     Toast.makeText(getApplicationContext(),messageModel.getMessage(),Toast.LENGTH_LONG).show();
                                 }
@@ -180,6 +230,8 @@ public class ThemSPActivity extends AppCompatActivity {
                     messageModel -> {
                         if(messageModel.isSuccess()){
                             Toast.makeText(getApplicationContext(),messageModel.getMessage(),Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getApplicationContext(), QuanLyActivity.class);
+                            startActivity(intent);
                         }else{
                             Toast.makeText(getApplicationContext(),messageModel.getMessage(),Toast.LENGTH_LONG).show();
                         }

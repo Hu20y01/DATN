@@ -42,7 +42,6 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.MyViewHo
                 false
         );
         layoutManager.setInitialPrefetchItemCount(donHang.getItem().size());
-        //adpter
         ChiTietAdapter chiTietAdapter = new ChiTietAdapter(donHang.getItem(), context);
         holder.recyclerView.setLayoutManager(layoutManager);
         holder.recyclerView.setAdapter(chiTietAdapter);

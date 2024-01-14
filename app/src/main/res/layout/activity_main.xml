@@ -57,11 +57,13 @@
 
 
           </androidx.appcompat.widget.Toolbar>
+
           <ViewFlipper
               android:id="@+id/viewflipper"
               android:layout_width="match_parent"
               android:layout_height="200dp">
           </ViewFlipper>
+
           <LinearLayout
               android:background="#dde9f6"
               android:orientation="vertical"

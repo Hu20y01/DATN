@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:title="Danh mục thông tin">
+            <menu>
+                <item
+                    android:id="@+id/trangchu"
+                    android:title="Trang Chủ"/>
+                <item
+                    android:id="@+id/danhmuc"
+                    android:title="Danh Mục Sản Phẩm"/>
+
+                <item
+                    android:id="@+id/donhangcuaban"
+                    android:title="Đơn hàng của bạn"/>
+
+                <item
+                    android:id="@+id/lienhe"
+                    android:title="Liên Hệ"/>
+            </menu>
+        </item>
+    </group>
+    <group>
+        <item
+            android:id="@+id/ql"
+            android:title="Quản lý">
+            <menu>
+                <item
+                    android:id="@+id/ql_danhmuc"
+                    android:title="Quản lý danh mục"/>
+                <item
+                    android:id="@+id/ql_sanpham"
+                    android:title="Quản lý sản phẩm"/>
+                <item
+                    android:id="@+id/ql_donhang"
+                    android:title="Quản lý đơn hàng"/>
+            </menu>
+        </item>
+    </group>
+    <group>
+        <item android:title="Khác">
+            <menu>
+                <item
+                    android:id="@+id/doimatkhau"
+                    android:title="Đổi mật khẩu"/>
+                <item
+                    android:id="@+id/dangxuat"
+                    android:title="Đăng xuất"/>
+            </menu>
+        </item>
+    </group>
+</menu>

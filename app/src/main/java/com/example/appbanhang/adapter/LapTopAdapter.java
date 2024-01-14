@@ -11,10 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.appbanhang.Interface.ItemClickListen;
 import com.example.appbanhang.R;
 import com.example.appbanhang.activity.ChiTietActivity;
 import com.example.appbanhang.model.SanPhamMoi;
+import com.example.appbanhang.util.Utils;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -46,24 +48,37 @@ public class LapTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if(holder instanceof MyViewHolder){
             MyViewHolder myViewHolder = (MyViewHolder) holder;
             SanPhamMoi sanPham = array.get(position);
-            myViewHolder.tensp.setText(sanPham.getTensp().trim());
-            DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
-            myViewHolder.giasp.setText("Giá:  "+decimalFormat.format(Double.parseDouble(sanPham.getGiasp()))+ "Đ");
-            myViewHolder.mota.setText(sanPham.getMota());
 
-            Glide.with(context).load(sanPham.getHinhanh()).into(myViewHolder.hinhanh);
-            myViewHolder.setItemClickListen(new ItemClickListen() {
-                @Override
-                public void onClick(View view, int pos, boolean isLongClick) {
-                    if(!isLongClick){
-                        Intent intent = new Intent(context , ChiTietActivity.class);
-                        intent.putExtra("chitiet",sanPham);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                    }
+            if (sanPham != null) {
+                myViewHolder.tensp.setText(sanPham.getTensp().trim());
+                DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
+                myViewHolder.giasp.setText("Giá:  "+decimalFormat.format(Double.parseDouble(sanPham.getGiasp()))+ " đ");
+                myViewHolder.mota.setText(sanPham.getMota());
+                sanPham.setHinhanh(sanPham.getHinhanh());
 
+                if (sanPham.getHinhanh().contains("http")){
+                    Glide.with(context)
+                            .load(sanPham.getHinhanh())
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .into(myViewHolder.hinhanh);
+                }else{
+                    String hinh = Utils.BASE_URL + "images/" + sanPham.getHinhanh();
+                    Glide.with(context).load(hinh).into(myViewHolder.hinhanh);
                 }
-            });
+                myViewHolder.setItemClickListen(new ItemClickListen() {
+                    @Override
+                    public void onClick(View view, int pos, boolean isLongClick) {
+                        if(!isLongClick){
+                            Intent intent = new Intent(context , ChiTietActivity.class);
+                            intent.putExtra("chitiet",sanPham);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        }
+
+                    }
+                });
+            }
         }else{
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);

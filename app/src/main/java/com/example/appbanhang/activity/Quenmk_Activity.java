@@ -47,8 +47,9 @@ public class Quenmk_Activity extends AppCompatActivity {
                             .subscribe(
                                     user_model -> {
                                         if(user_model.isSuccess()){
-                                            Toast.makeText(getApplicationContext(),user_model.getMessage(),Toast.LENGTH_LONG).show();
-                                            Intent intent = new Intent(getApplicationContext(), ChangePassActivity.class);
+
+                                            Toast.makeText(getApplicationContext(),"vui long ktra email",Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent(getApplicationContext(), DangNhapActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }
@@ -69,6 +70,7 @@ public class Quenmk_Activity extends AppCompatActivity {
         apiBanHang = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiBanHang.class);
         btnlaymk = findViewById(R.id.btnlaymk);
         eemail = findViewById( R.id.eemail);
+
     }
 
     @Override

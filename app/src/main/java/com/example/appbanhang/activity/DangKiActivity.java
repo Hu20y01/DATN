@@ -72,6 +72,9 @@ public class DangKiActivity extends AppCompatActivity {
                 {
                     Toast.makeText(DangKiActivity.this,"Chưa nhập Mật Khẩu",Toast.LENGTH_LONG).show();
                 }
+                else if(str_pass.length()<6) {
+                    Toast.makeText(DangKiActivity.this,"Mật khẩu phải lớn hơn 6 kí tự",Toast.LENGTH_LONG).show();
+                }
                 else if(TextUtils.isEmpty(str_repass))
                 {
                     Toast.makeText(DangKiActivity.this,"Cần xác nhận Mật Khẩu",Toast.LENGTH_LONG).show();

@@ -1,10 +1,12 @@
 package com.example.appbanhang.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -12,6 +14,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -59,20 +64,21 @@ public class MainActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     ImageView imgsearch;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         apiBanHang = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiBanHang.class);
         Anhxa();
-        ActionBar(); // hàm gọi toolbar
+        ActionBar();
+
         if(isConnect(this)){
-            Toast.makeText(this, "kết nối internet thành công", Toast.LENGTH_SHORT).show();
-            ActionViewFlipper(); //gọi chạy quảng cáo
-            //get các file kết nối với php
-            getLoaiSanPham();
+            ActionViewFlipper();
+            getNav();
             getSpMoi();
-            getEventClick(); //hàm click vào các sự kiện trong toolbar như trang chủ, liên hệ, thông tin, ...
+            getEventClick();
         }
         else {
             Toast.makeText(this, "không có internet, vui lòng kết nối", Toast.LENGTH_SHORT).show();
@@ -142,20 +148,54 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getLoaiSanPham() {
-        compositeDisposable.add(apiBanHang.getLoaiSp()
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(
-                loaiSpModel -> {
-                    if (loaiSpModel.isSuccess()){
-                        mangloaisp = loaiSpModel.getResult();
-                        //khởi tạo adapter
-                        loaiSpAdapter = new LoaiSpAdapter(getApplicationContext(),mangloaisp);
-                        listViewManHinhChinh.setAdapter(loaiSpAdapter);
-                    }
+    private void getNav() {
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.navigation_menu);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.trangchu:
+                        Intent trangchu = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(trangchu);
+                        break;
+                    case R.id.danhmuc:
+                        Intent danhmuc = new Intent(getApplicationContext(), LapTopActivity.class);
+                        startActivity(danhmuc);
+                        break;
+                    case R.id.donhangcuaban:
+                        Intent donhangcuaban = new Intent(getApplicationContext(), XemDonActivity.class);
+                        startActivity(donhangcuaban);
+                        break;
+                    case R.id.lienhe:
+                        Intent lienhe = new Intent(getApplicationContext(),LienHeActivity.class);
+                        startActivity(lienhe);
+                        break;
+                    case R.id.ql_danhmuc:
+                        Intent ql_danhmuc = new Intent(getApplicationContext(), QuanLyDanhMucActivity.class);
+                        startActivity(ql_danhmuc);
+                        break;
+                    case R.id.ql_sanpham:
+                        Intent ql_sanpham = new Intent(getApplicationContext(), QuanLyActivity.class);
+                        startActivity(ql_sanpham);
+                        break;
+                    case R.id.ql_donhang:
+                        Intent ql_donhang = new Intent(getApplicationContext(), QuanLyDonHangActivity.class);
+                        startActivity(ql_donhang);
+                        break;
+                    case R.id.doimatkhau:
+                        Intent doimatkhau = new Intent(getApplicationContext(), ChangePassActivity.class);
+                        startActivity(doimatkhau);
+                        break;
+                    case R.id.dangxuat:
+                        Intent dangxuat = new Intent(getApplicationContext(), DangNhapActivity.class);
+                        startActivity(dangxuat);
+                        break;
                 }
-        ));
+                return true;
+            }
+        });
     }
 
     private void ActionViewFlipper() {
@@ -192,11 +232,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void Anhxa() {
+        Intent intent = getIntent();
+
         toolbar = findViewById(R.id.toolbarmanhinhchinh);
         imgsearch = findViewById(R.id.imgsearch);
         viewFlipper = findViewById(R.id.viewflipper);
         recyclerViewManHinhChinh = findViewById(R.id.recycleview);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this,2);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewManHinhChinh.setLayoutManager(layoutManager);
         recyclerViewManHinhChinh.setHasFixedSize(true);
         navigationView = findViewById(R.id.navigationview);
@@ -204,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerlayout);
         badge = findViewById(R.id.memu_sl);
         frameLayout = findViewById(R.id.framegiohang);
+
         //khởi tạo list
         mangloaisp = new ArrayList<>();
         mangSpMoi = new ArrayList<>();
@@ -230,9 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-        }
+    }
 
     @Override
     protected void onResume() {
@@ -255,6 +296,18 @@ public class MainActivity extends AppCompatActivity {
         else {
             return false;
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (Utils.user_current.getRole().equals("user")) {
+            NavigationView navigationView = findViewById(R.id.navigationview);
+            MenuItem menuItem = navigationView.getMenu().findItem(R.id.ql);
+            if (menuItem != null) {
+                menuItem.setVisible(false);
+            }
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

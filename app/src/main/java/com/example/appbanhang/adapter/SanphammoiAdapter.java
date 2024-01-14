@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.appbanhang.Interface.ItemClickListen;
 import com.example.appbanhang.R;
 import com.example.appbanhang.activity.ChiTietActivity;
@@ -39,7 +40,7 @@ public class SanphammoiAdapter extends RecyclerView.Adapter<SanphammoiAdapter.My
     @androidx.annotation.NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@androidx.annotation.NonNull ViewGroup parent, int viewType) {
-        View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sanphammoi, parent, false);
+        View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dienthoai, parent, false);
         return new MyViewHolder(item);
     }
 
@@ -49,8 +50,13 @@ public class SanphammoiAdapter extends RecyclerView.Adapter<SanphammoiAdapter.My
         holder.txtten.setText(sanPhamMoi.getTensp());
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         holder.txtgia.setText("Giá: "+decimalFormat.format(Double.parseDouble(sanPhamMoi.getGiasp()))+ "Đ" );
+
         if(sanPhamMoi.getHinhanh().contains("http")){
-            Glide.with(context).load(sanPhamMoi.getHinhanh()).into(holder.imghinhanh);
+            Glide.with(context)
+                .load(sanPhamMoi.getHinhanh())
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(holder.imghinhanh);
         }else{
             String hinh = Utils.BASE_URL+"images/"+sanPhamMoi.getHinhanh();
             Glide.with(context).load(hinh).into(holder.imghinhanh);
@@ -76,14 +82,15 @@ public class SanphammoiAdapter extends RecyclerView.Adapter<SanphammoiAdapter.My
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, View.OnLongClickListener {
-        TextView txtgia,txtten;
+        TextView txtgia,txtten, mota;
         ImageView imghinhanh;
         private ItemClickListen itemClickListener;
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
-            txtgia = itemView.findViewById(R.id.itemsp_gia);
-            txtten = itemView.findViewById(R.id.itemsp_ten);
-            imghinhanh = itemView.findViewById(R.id.itemsp_image);
+            txtgia = itemView.findViewById(R.id.itemdt_gia);
+            txtten = itemView.findViewById(R.id.itemdt_ten);
+            imghinhanh = itemView.findViewById(R.id.itemdt_image);
+            mota = itemView.findViewById(R.id.itemdt_mota);
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);
             itemView.setOnLongClickListener(this);

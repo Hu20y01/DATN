@@ -7,6 +7,8 @@ public class GioHang {
     String hinhsp;
     int soluong;
 
+    long total;
+
     public GioHang() {
     }
 
@@ -49,5 +51,13 @@ public class GioHang {
 
     public void setSoluong(int soluong) {
         this.soluong = soluong;
+    }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
     }
 }

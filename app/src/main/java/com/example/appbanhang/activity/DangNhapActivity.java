@@ -63,7 +63,31 @@ public class DangNhapActivity extends AppCompatActivity {
                     //luu thong tin dang nhap
                     Paper.book().write("email",str_edtemail);
                     Paper.book().write("password",str_edtpass);
-                    dangNhap(str_edtemail,str_edtpass);
+                  //  dangNhap(str_edtemail,str_edtpass);
+                    compositeDisposable.add(apiBanHang.dangnhap(str_edtemail,str_edtpass)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    user_model -> {
+                                        if(user_model.isSuccess()){
+                                            isLogin = true;
+                                            Paper.book().write("isLogin",isLogin);
+                                            Utils.user_current = user_model.getResult().get(0);
+                                            Utils.user_current.setEmail(user_model.getResult().get(0).getEmail());
+                                            Utils.user_current.setPassword(user_model.getResult().get(0).getPassword());
+                                            Utils.user_current.setPhone(user_model.getResult().get(0).getPhone());
+                                            Intent home = new Intent(getApplicationContext(), SplashActivity.class);
+                                            startActivity(home);
+                                            finish();
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(),user_model.getMessage(),Toast.LENGTH_LONG).show();
+                                        }
+                                    },
+                                    throwable -> {
+                                        Toast.makeText(getApplicationContext(),throwable.getMessage(),Toast.LENGTH_LONG).show();
+                                    }
+                            ));
 
                 }
 
@@ -98,7 +122,7 @@ public class DangNhapActivity extends AppCompatActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            dangNhap(Paper.book().read("email"),Paper.book().read("password"));
+                            //dangNhap(Paper.book().read("email"),Paper.book().read("password"));
                         }
                     },1000);
                 }
@@ -107,32 +131,32 @@ public class DangNhapActivity extends AppCompatActivity {
         }
     }
 
-    private void dangNhap(String email,String pass) {
-        compositeDisposable.add(apiBanHang.dangnhap(email,pass)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        user_model -> {
-                            if(user_model.isSuccess()){
-                                isLogin = true;
-                                Paper.book().write("isLogin",isLogin);
+//    private void dangNhap(String email,String pass) {
+//        compositeDisposable.add(apiBanHang.dangnhap(email,pass)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        user_model -> {
+//                            if(user_model.isSuccess()){
+//                                isLogin = true;
+//                                Paper.book().write("isLogin",isLogin);
 //                                Utils.user_current = user_model.getResult().get(0);
-                                Utils.user_current.setEmail(user_model.getResult().get(0).getEmail());
-                                Utils.user_current.setPassword(user_model.getResult().get(0).getPassword());
-                                Utils.user_current.setPhone(user_model.getResult().get(0).getPhone());
-                                Intent home = new Intent(getApplicationContext(), SplashActivity.class);
-                                startActivity(home);
-                                finish();
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),user_model.getMessage(),Toast.LENGTH_LONG).show();
-                            }
-                        },
-                        throwable -> {
-                            Toast.makeText(getApplicationContext(),throwable.getMessage(),Toast.LENGTH_LONG).show();
-                        }
-                ));
-    }
+//                                Utils.user_current.setEmail(user_model.getResult().get(0).getEmail());
+//                                Utils.user_current.setPassword(user_model.getResult().get(0).getPassword());
+//                                Utils.user_current.setPhone(user_model.getResult().get(0).getPhone());
+//                                Intent home = new Intent(getApplicationContext(), SplashActivity.class);
+//                                startActivity(home);
+//                                finish();
+//                            }
+//                            else{
+//                                Toast.makeText(getApplicationContext(),user_model.getMessage(),Toast.LENGTH_LONG).show();
+//                            }
+//                        },
+//                        throwable -> {
+//                            Toast.makeText(getApplicationContext(),throwable.getMessage(),Toast.LENGTH_LONG).show();
+//                        }
+//                ));
+//    }
 
     @Override
     protected void onResume() {

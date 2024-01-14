@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.appbanhang.Interface.ImageClickListener;
 import com.example.appbanhang.R;
 import com.example.appbanhang.model.EventBus.TinhTongEvent;
@@ -46,7 +47,18 @@ public class GiohangAdapter extends RecyclerView.Adapter<GiohangAdapter.MyViewHo
         GioHang gioHang = gioHangList.get(position);
         holder.item_giohang_tensp.setText(gioHang.getTensp().trim());
         holder.item_giohang_soluong.setText(gioHang.getSoluong()+ "");
-        Glide.with(context).load(gioHang.getHinhsp()).into(holder.item_giohang_image);
+
+        if (gioHang.getHinhsp().contains("http")){
+            Glide.with(context)
+                    .load(gioHang.getHinhsp())
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(holder.item_giohang_image);
+        }else{
+            String hinh = Utils.BASE_URL + "images/" + gioHang.getHinhsp();
+            Glide.with(context).load(hinh).into(holder.item_giohang_image);
+        }
+
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
         holder.item_giohang_gia.setText(decimalFormat.format(gioHang.getGiasp()));
         long gia = gioHang.getSoluong() * gioHang.getGiasp();

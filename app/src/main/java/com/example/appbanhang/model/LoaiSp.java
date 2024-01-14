@@ -1,6 +1,8 @@
 package com.example.appbanhang.model;
 
-public class LoaiSp {
+import java.io.Serializable;
+
+public class LoaiSp implements Serializable {
     int id;
     String tensanpham;
     String hinhanh;

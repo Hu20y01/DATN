@@ -33,13 +33,14 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/boder"
             android:gravity="center">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
                 android:drawableLeft="@color/white"
                 android:gravity="center"
-                android:text="Lớp 70DCTT23 Khoa CNTT"
+                android:text="Số 460 đường Hoàng Công Chất – Phường Cầu Diễn – Quận Từ Liêm – Hà Nội"
                 android:textColor="#000000"
                 android:textSize="18dp" />
         </LinearLayout>
@@ -51,7 +52,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thành viên"
+                android:text="Quản lý kho"
                 android:textColor="#000000"
                 android:textSize="20dp" />
         </LinearLayout>
@@ -69,34 +70,7 @@
                 android:drawableLeft="@color/white"
                 android:layout_margin="10dp"
                 android:gravity="center"
-                android:text="Bùi Công Dũng"
-                android:textColor="#000000"
-                android:textSize="18dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@color/white"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="Vũ Phương Nam"
-                android:textColor="#000000"
-                android:textSize="18dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@color/white"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="Nguyễn Quốc Dũng"
-                android:textColor="#000000"
-                android:textSize="18dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@color/white"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="Vũ Hồ Dức"
+                android:text="Phạm Thị Linh"
                 android:textColor="#000000"
                 android:textSize="18dp" />
         </LinearLayout>

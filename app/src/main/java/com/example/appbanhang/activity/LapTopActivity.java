@@ -6,14 +6,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.appbanhang.R;
 import com.example.appbanhang.adapter.LapTopAdapter;
+import com.example.appbanhang.adapter.LoaiSpAdapter;
+import com.example.appbanhang.model.LoaiSp;
 import com.example.appbanhang.model.SanPhamMoi;
 import com.example.appbanhang.retrofit.ApiBanHang;
 import com.example.appbanhang.retrofit.RetrofitClient;
@@ -32,12 +37,15 @@ public class LapTopActivity extends AppCompatActivity {
     ApiBanHang apiBanHang;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     int page = 1;
-    int loai;
+    int loai, danhMuc;
     LapTopAdapter adapterDt;
     List<SanPhamMoi> sanPhamMoiList;
     LinearLayoutManager linearLayoutManager;
     Handler handler = new Handler();
     boolean isLoading = false;
+    List<LoaiSp> mangloaisp;
+    LoaiSpAdapter loaiSpAdapter;
+    Spinner spDanhMuc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,28 +55,29 @@ public class LapTopActivity extends AppCompatActivity {
         loai = getIntent().getIntExtra("loai",1);
         Anhxa();
         ActionToolBar();
+        getDanhMuc();
         getData(page);
         addEventLoad();
     }
 
     private void addEventLoad() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if(isLoading ==false ){
-                    if(linearLayoutManager.findLastCompletelyVisibleItemPosition()== sanPhamMoiList.size()-1);{
-                        isLoading=true;
-                        loadMore();
-                    }
-                }
-            }
-        });
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//            }
+//
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if(isLoading ==false ){
+//                    if(linearLayoutManager.findLastCompletelyVisibleItemPosition()== sanPhamMoiList.size()-1);{
+//                        isLoading=true;
+//                        loadMore();
+//                    }
+//                }
+//            }
+//        });
     }
 
     private void loadMore() {
@@ -104,41 +113,74 @@ public class LapTopActivity extends AppCompatActivity {
         });
     }
 
+    private void getDanhMuc() {
+        compositeDisposable.add(apiBanHang.getLoaiSp()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                loaiSpModel -> {
+                    if (loaiSpModel.isSuccess()){
+                        mangloaisp = loaiSpModel.getResult();
+                        loaiSpAdapter = new LoaiSpAdapter(getApplicationContext(),mangloaisp);
+                        spDanhMuc.setAdapter(loaiSpAdapter);
+                        spDanhMuc.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                if (danhMuc != mangloaisp.get(position).getId()) {
+                                    sanPhamMoiList.clear();
+                                    adapterDt.notifyDataSetChanged();
+                                    danhMuc = mangloaisp.get(position).getId();
+                                    page = 1;
+                                    getData(page);
+                                    addEventLoad();
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
+                    }
+                }
+            ));
+    }
+
     private void getData(int page) {
         Log.d("test", page + "..." + loai);
-        compositeDisposable.add(apiBanHang.getSanPham(page, loai)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        sanPhamMoiModel -> {
-                            if(sanPhamMoiModel.isSuccess()){
-                                if(adapterDt == null){
-                                    sanPhamMoiList = sanPhamMoiModel.getResult();
-                                    adapterDt = new LapTopAdapter(getApplicationContext(), sanPhamMoiList);
-                                    recyclerView.setAdapter(adapterDt);
-                                }else{
-                                    int vitri = sanPhamMoiList.size()-1;
-                                    int soluongadd = sanPhamMoiModel.getResult().size();
-                                    for(int i=0;i<soluongadd;i++){
-                                        sanPhamMoiList.add(sanPhamMoiModel.getResult().get(i));
-                                    }
-                                    adapterDt.notifyItemRangeInserted(vitri,soluongadd);
-                                }
-
-                            }else{
-                                Toast.makeText(getApplicationContext(),"",Toast.LENGTH_LONG).show();
-                                isLoading = true;
+        compositeDisposable.add(apiBanHang.getSanPham(page, danhMuc)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                sanPhamMoiModel -> {
+                    if(sanPhamMoiModel.isSuccess()){
+                        if(adapterDt == null){
+                            sanPhamMoiList = sanPhamMoiModel.getResult();
+                            adapterDt = new LapTopAdapter(getApplicationContext(), sanPhamMoiList);
+                            recyclerView.setAdapter(adapterDt);
+                        }else{
+                            int vitri = sanPhamMoiList.size()-1;
+                            int soluongadd = sanPhamMoiModel.getResult().size();
+                            for(int i=0;i<soluongadd;i++){
+                                sanPhamMoiList.add(sanPhamMoiModel.getResult().get(i));
                             }
-                        },
-                        throwable -> {
-                            Toast.makeText(this, "không kết nối được sever", Toast.LENGTH_SHORT).show();
+                            adapterDt.notifyItemRangeInserted(vitri,soluongadd);
                         }
-                )
+
+                    }else{
+                        isLoading = true;
+                    }
+                },
+                throwable -> {
+                    Toast.makeText(this, "không kết nối được sever", Toast.LENGTH_SHORT).show();
+                }
+            )
         );
     }
 
     private void Anhxa() {
         toolbar = findViewById(R.id.toobar);
+        spDanhMuc = findViewById(R.id.sp_danhmuc);
         recyclerView = findViewById(R.id.recycleview_lt);
         linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);

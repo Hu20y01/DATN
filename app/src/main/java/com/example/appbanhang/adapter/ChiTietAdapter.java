@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.appbanhang.R;
 import com.example.appbanhang.model.Item;
+import com.example.appbanhang.util.Utils;
 
 import java.util.List;
 
@@ -36,8 +38,18 @@ public class ChiTietAdapter extends RecyclerView.Adapter<ChiTietAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Item item = itemList.get(position);
         holder.txtten.setText(item.getTensp()+ "");
-        holder.txtsoluong.setText("Số lương: "+ item.getSoluong() + "");
-        Glide.with(context).load(item.getHinhanh()).into(holder.imgchitiet);
+        holder.txtsoluong.setText("Số lượng: "+ item.getSoluong() + "");
+
+        if (item.getHinhanh().contains("http")){
+            Glide.with(context)
+                    .load(item.getHinhanh())
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(holder.imgchitiet);
+        }else{
+            String hinh = Utils.BASE_URL + "images/" + item.getHinhanh();
+            Glide.with(context).load(hinh).into(holder.imgchitiet);
+        }
     }
 
     @Override

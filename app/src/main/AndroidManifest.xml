@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppBanHang"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".activity.SplashActivity"
             android:exported="false" />
@@ -73,6 +74,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.QuanLyDanhMucActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.QuanLyDonHangActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ThemDMActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

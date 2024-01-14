@@ -28,7 +28,7 @@ public interface ApiBanHang {
     @FormUrlEncoded
     Observable<SanPhamMoiModel> getSanPham(
             @Field("page") int page,
-            @Field("loai") int loai
+            @Field("danhMuc") int danhMuc
     );
 
     @POST("dangky.php")
@@ -115,4 +115,29 @@ public interface ApiBanHang {
     Call<MessageModel> uploadFile(
             @Part MultipartBody.Part file
     );
+
+    @GET("getDanhMuc.php")
+    Observable<LoaiSpModel> getDanhMuc();
+
+    @POST("xoaDanhMuc.php")
+    @FormUrlEncoded
+    Observable<MessageModel> xoaDanhMuc(
+        @Field("id") int id
+    );
+
+    @POST("themDanhMuc.php")
+    @FormUrlEncoded
+    Observable<MessageModel> themDanhMuc(
+        @Field("tensp") String tensp
+    );
+
+    @POST("capNhatDanhMuc.php")
+    @FormUrlEncoded
+    Observable<MessageModel> capNhatDanhMuc(
+        @Field("tensp") String tensp,
+        @Field("id") int id
+    );
+
+    @GET("getDonHang.php")
+    Observable<DonHangModel> getDonHang();
 }
