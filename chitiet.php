@@ -1,11 +1,22 @@
 <?php
 include "connect.php";
-    $page = $_POST['page'];
-    $total = 8; //can lay 20 san pham tren 1 trang
-    $pos = ($page-1)*$total; //0.5 5.5
-    $loai = $_POST['loai'];
+$page = $_POST['page'];
+$total = 8; //can lay 20 san pham tren 1 trang
+$pos = ($page-1)*$total; //0.5 5.5
+$danhMuc = $_POST['danhMuc'];
 
-$query = 'SELECT * FROM `sanphammoi` WHERE `loai` = '.$loai.' LIMIT '.$pos.','.$total.'';
+// $query = 'SELECT * FROM `sanphammoi` WHERE `danhmuc` = '.$danhMuc.' LIMIT '.$pos.','.$total.'';
+
+// if ($danhMuc <= 0) {
+//     $query = 'SELECT * FROM `sanphammoi` LIMIT '.$pos.','.$total.'';
+// }
+
+$query = 'SELECT * FROM `sanphammoi` WHERE `danhmuc` = '.$danhMuc . ' ORDER BY id DESC';
+
+if ($danhMuc <= 0) {
+    $query = 'SELECT * FROM `sanphammoi` ORDER BY ID DESC';
+}
+
 
 $data = mysqli_query($conn, $query);
 $result = array();

@@ -1,37 +1,27 @@
 <?php
 
 include "connect.php";
-$query = "SELECT * FROM `sanpham`";
+
+$query = "SELECT * FROM `sanpham` ORDER BY id DESC";
 $data = mysqli_query($conn, $query);
-$result = [
-    [
-        "id" => "0",
-        "tensanpham" => "Tất cả sản phẩm",
-        "hinhanh" => ""
-    ]
-];
+$result = [];
+
 while($row = mysqli_fetch_assoc($data)){
 	$result[] = ($row);
 } 
 
-if(!empty($result)){
+if (!empty($result)) {
 	$arr = [
         'success' => true,
         'message' => "thành công",
         'result' => $result 
-	    ];     
-}
-else{
-
+    ];     
+} else {
 	$arr = [
         'success' => false,
         'message' => "không thành công",
         'result' => $result 
-	    ];   
-
+    ];   
 }
 
 print_r(json_encode($arr));
-
-
-?>

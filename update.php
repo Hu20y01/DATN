@@ -8,7 +8,7 @@ include "connect.php";
     $id = $_POST['id'];
 
     $query = 'UPDATE sanphammoi SET tensp="'.$tensp.'",giasp = "'.$gia.'",hinhanh="'.$hinhanh.'",mota="'.$mota.'"
-                ,loai='.$loai.' WHERE id = '.$id.'';
+                ,danhmuc='.$loai.' WHERE id = '.$id.'';
     $data = mysqli_query($conn,$query);
         if($data == true){
             $arr = [

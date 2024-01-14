@@ -6,7 +6,7 @@ include "connect.php";
     $mota = $_POST['mota'];
     $loai = $_POST['loai'];
 
-    $query = 'INSERT INTO sanphammoi(tensp,giasp,hinhanh,mota,loai) VALUES ("'.$tensp.'","'.$gia.'",
+    $query = 'INSERT INTO sanphammoi(tensp,giasp,hinhanh,mota,danhmuc) VALUES ("'.$tensp.'","'.$gia.'",
             "'.$hinhanh.'","'.$mota.'",'.$loai.')';
     $data = mysqli_query($conn,$query);
         if($data == true){

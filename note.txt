@@ -1,0 +1,11 @@
+B1:
+    - mở visual studio
+    - chạy lệnh php -S localhost:8000
+B2
+    - mở ngrok
+    - chạy lệnh ngrok http localhost:8000
+    - copy domain ở dòng Forwarding, ví dụ: https://8054-2405-4803-fe0a-67e0-85e4-f6b8-7ee3-28c4.ngrok-free.app/ [phải có dấu / ở cuối]
+B3
+    - mở android studio
+    - tìm tới file: app/java/com.example.appbanhang/util/Utils
+    - dòng 9: copy domain vừa cop ở B2 paste vào và run app
